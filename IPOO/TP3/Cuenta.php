@@ -6,10 +6,10 @@ class Cuenta{
     private $saldoActual;
     private $interesAnual;
 
-    public function __construct($numCuenta, $cliente, $saldoActual, $interesAnual){
+    public function __construct($numCuenta, $cliente, $interesAnual){
         $this->numCuenta = $numCuenta;
         $this->cliente = $cliente;
-        $this->saldoActual = $saldoActual;
+        $this->saldoActual = 0;
         $this->interesAnual = $interesAnual;
     }
     public function getNumCuenta(){

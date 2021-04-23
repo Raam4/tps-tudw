@@ -75,14 +75,16 @@ class Banco{
 
     private function checkCuenta($nroCuenta){
         $cuenta = null;
-        foreach($this->colCajaAhorro as $key){
+        $colCajaAhorro = $this->getColCajaAhorro();
+        foreach($colCajaAhorro as $key){
             if($key->getNumCuenta() == $nroCuenta){
-                $cliente = $key;
+                $cuenta = $key;
                 break;
             }
         }
         if(is_null($cuenta)){
-            foreach($this->colCtaCorriente as $key){
+            $colCtaCorriente = $this->getColCtaCorriente();
+            foreach($colCtaCorriente as $key){
                 if($key->getNumCuenta() == $nroCuenta){
                     $cuenta = $key;
                     break;
@@ -98,7 +100,7 @@ class Banco{
             echo "El cliente no existe.";
         }else{
             $i = count($this->colCtaCorriente);
-            $this->colCtaCorriente[$i] = new CuentaCorriente(random_int(0, 9999), $cliente, 150, 1.3, 100000);
+            $this->colCtaCorriente[$i] = new CuentaCorriente(random_int(0, 9999), $cliente, 1.3, 100000);
         }
     }
 
@@ -108,7 +110,7 @@ class Banco{
             echo "El cliente no existe.";
         }else{
             $i = count($this->colCajaAhorro);
-            $this->colCajaAhorro[$i] = new CajaAhorro(random_int(0, 9999), $cliente, 0, 1.3);
+            $this->colCajaAhorro[$i] = new CajaAhorro(random_int(0, 9999), $cliente, 1.3);
         }
     }
 
@@ -129,5 +131,6 @@ class Banco{
             $cuenta->retirar($monto);
         }
     }
+
 }
 ?>

@@ -3,8 +3,8 @@ include "Cuenta.php";
     class CuentaCorriente extends Cuenta{
         private $limiteGiro;
 
-        public function __construct($numCuenta, $cliente, $saldoActual, $interesAnual, $limiteGiro){
-            parent::__construct($numCuenta, $cliente, $saldoActual, $interesAnual);
+        public function __construct($numCuenta, $cliente, $interesAnual, $limiteGiro){
+            parent::__construct($numCuenta, $cliente, $interesAnual);
             $this->limiteGiro = $limiteGiro;
         }
         public function setLimiteGiro($limiteGiro){
