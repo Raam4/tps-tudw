@@ -1,5 +1,6 @@
 <?php
-class Ventas{
+include "Importado.php";
+class Venta{
     //Atributos
     private $fecha;
     private $colObjProducto;
@@ -39,14 +40,27 @@ class Ventas{
     }
     //Metodos
     public function __toString(){
-        return "";
+        $str = self::colToStr($this->colObjProducto);
+        return "\nFecha: ".$this->fecha.
+               "\nProductos: ".$str.
+               "\nCliente: ".$this->cliente.
+               "\nImporte: $".$this->importeFinal;
     }
 
-    private static function calcImporteFinal($colObjProducto){
+    private static function colToStr($col){
+        $str = "";
+        foreach($col as $key){
+            $str .= $key;
+        }
+        return $str;
+    }
+
+    public function darImporteVenta($colObjProducto){
         $venta = 0;
         foreach($colObjProducto as $key){
             $venta += $key->darPrecioVenta();
         }
+        $this->setImporteFinal($venta);
         return $venta;
     }
 }
