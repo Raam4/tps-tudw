@@ -1,4 +1,5 @@
 <?php
+include "Destino.php";
 class PaqueteTuristico{
     //Atributos
     private $fechaDesde;

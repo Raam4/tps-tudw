@@ -1,4 +1,5 @@
 <?php
+include "PaqueteTuristico.php";
 class Venta{
     //Atributos
     private $fecha;
@@ -43,6 +44,16 @@ class Venta{
                "\nPaquete Turistico: ".$this->objPaqueteTuristico.
                "\nCantidad de Personas: ".$this->cantPersonas.
                "\nCliente: ".$this->cliente;
+    }
+
+    public function darImporteVenta(){
+        $objPaqueteTuristico = $this->getObjPaqueteTuristico();
+        $cantDias = $objPaqueteTuristico->getCantDias();
+        $objDestino = $objPaqueteTuristico->getObjDestino();
+        $valorDia = $objDestino->getValorDia();
+        $cantPersonas = $this->getCantPersonas();
+        $importe = $cantDias * $valorDia * $cantPersonas;
+        return $importe;
     }
 }
 ?>
