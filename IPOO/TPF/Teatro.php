@@ -73,7 +73,9 @@ class Teatro{
 				    $this->setIdTeatro($idTeatro);
 					$this->setNombre($row2['nombre']);
 					$this->setDireccion($row2['direccion']);
-					$this->setColObjFuncion($row2['colObjFuncion']);
+					/*ESTO NO $this->setColObjFuncion($row2['colObjFuncion']);
+					*hay que buscar e instanciar todas las funciones para crear el array.
+					*/
 					$resp= true;
 				}				
             }else{
