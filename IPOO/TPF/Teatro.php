@@ -73,12 +73,14 @@ class Teatro{
 				    $this->setIdTeatro($idTeatro);
 					$this->setNombre($row2['nombre']);
 					$this->setDireccion($row2['direccion']);
-					/*ESTO NO $this->setColObjFuncion($row2['colObjFuncion']);
-					*hay que buscar e instanciar todas las funciones para crear el array.
-					*/
 					$cnd = "idTeatro = ".$idTeatro;
-					$objFuncion = new Funcion();
-					$colObjFuncion = $objFuncion->listar($cnd);
+					$objObra = new Obra();
+					$colObjObra = $objObra->listar($cnd);
+					$objCine = new Cine();
+					$colObjCine = $objCine->listar($cnd);
+					$objMusical = new Musical();
+					$colObjMusical = $objMusical->listar($cnd);
+					$colObjFuncion = array_merge($colObjObra, $colObjCine, $colObjMusical);
 					$this->setColObjFuncion($colObjFuncion);
 					$resp= true;
 				}				
