@@ -120,7 +120,7 @@ class Funcion{
         if($condicion!=""){
             $qryFuncion=$qryFuncion.' WHERE '.$condicion;
         }
-        $qryFuncion.=" ORDER BY nombre";
+        $qryFuncion.=" ORDER BY idFuncion";
         if($base->Iniciar()){
             if($base->Ejecutar($qryFuncion)){				
                 $arrayFuncion= array();
