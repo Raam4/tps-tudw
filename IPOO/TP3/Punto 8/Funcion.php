@@ -11,6 +11,7 @@
         private $horaInicio;
         private $duracion;
         private $precio;
+        private $incremento;
 
         //Metodo Constructor
         public function __construct($nombre, $horaInicio, $duracion, $precio){
@@ -18,6 +19,7 @@
             $this->horaInicio = $horaInicio;
             $this->duracion = $duracion;
             $this->precio = $precio;
+            $this->incremento = 1.45;
         }
         //Modificadoras
         public function setNombre($nombre){
@@ -32,6 +34,9 @@
         public function setPrecio($precio){
             $this->precio = $precio;
         }
+        public function setIncremento($incremento){
+            $this->incremento = $incremento;
+        }
         //Observadoras
         public function getNombre(){
             return $this->nombre;
@@ -44,6 +49,9 @@
         }
         public function getPrecio(){
             return $this->precio;
+        }
+        public function getIncremento(){
+            return $this->incremento;
         }
         //Metodos
 
@@ -89,8 +97,8 @@
             return "\nNombre de la función: ".$this->nombre.
                    "\nHora de inicio: ".$hr." hs.".
                    "\nDuración: ".$this->duracion." minutos".
-                   "\nPrecio: $".$this->precio.
-                   "\n-------------------------";
+                   "\nPrecio: $".$this->precio;
+                   "\n% de incremento: ".$incremento;
         }
     }
 ?>

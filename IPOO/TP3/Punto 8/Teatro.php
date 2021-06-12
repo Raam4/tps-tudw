@@ -44,13 +44,23 @@ include 'Funcion.php';
          * @return String
          */
         public function strColFun(){
-            $colFunc = $this->colObjFuncion;
+            $colFunc = $this->getColObjFuncion();
             $str = "";
             for($i=0; $i<count($colFunc); $i++){
                 $str .= "Función ".($i+1)."\n".$colFunc[$i]."\n";
             }
             return "\nFunciones\n".$str;
         }
+
+        public function darCostos(){
+            $fns = $this->getColObjFuncion();
+            $total = 0;
+            foreach($fns as $key){
+                $total += ($key.getPrecio() * $key.getIncremento());
+            }
+            return $total;
+        }
+
 
         public function __toString(){
             $arrayToString = $this->strColFun();

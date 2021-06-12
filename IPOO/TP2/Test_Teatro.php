@@ -7,8 +7,6 @@
      * array int $st
      * array obj $funcion
      * obj $teatro
-     * 
-     * Faltan verificaciones de entrada de usuario!!!
      */
     $teat = null;
     $str = "";
@@ -64,127 +62,7 @@
                 if(is_null($teat)){
                     echo "No se encuentra información cargada de funciones, utilice la opción 3.";
                 }else{
-                    do{
-                        $dos = subMenu();
-                        switch($dos){
-                            case 1:
-                                do{
-                                    echo "\nIngrese el nombre de la nueva función:";
-                                    $nm = trim(fgets(STDIN));
-                                    echo "\nIngrese la hora de inicio en formato HHmm: ";
-                                    $st = format(trim(fgets(STDIN)));
-                                    echo "\nIngrese la duracion en minutos: ";
-                                    $dr = trim(fgets(STDIN));
-                                    $j = count($funcion);
-                                    while(0<$j){
-                                        for($i=0; $i<count($funcion); $i++){
-                                            if($funcion[$j-1]->solap($st, $dr)){
-                                                echo "\nLa función ingresada se solapará con la función ".$funcion[$j-1]->getNombre();
-                                                echo "\nIngrese nuevamente los datos de la función evitando lo anterior mencionado.";
-                                                $i--;
-                                                continue 3;
-                                            }else{
-                                                $j--;
-                                            }
-                                        }
-                                    }
-                                if($j==0){
-                                    break;
-                                }
-                                }while($funcion[$j-1]->solap($st, $dr));
-                                echo "\nIngrese el precio: ";
-                                $pr = trim(fgets(STDIN));
-                                $pos = count($funcion);
-                                $funcion[$pos] = new Funcion($nm, $st, $dr, $pr);
-                                break;
-                            case 2:
-                                do{
-                                    echo "Ingrese el número de la funcion a modificar";
-                                    $pos = trim(fgets(STDIN)) - 1;
-                                    $ver = true;
-                                    if(is_int($pos) and 0<$pos and $pos<=count($funcion)){
-                                        $ver = false;
-                                    }elseif(is_int($pos) and 0>$pos or $pos>=count($funcion)){
-                                        echo "No existe la funcion, verifique el valor ingresado.";
-                                    }else{
-                                        echo "Ingrese una número entero.";
-                                    }
-                                }while($ver);
-                                do{
-                                    $tres = subSubMenu();
-                                    switch($tres){
-                                        case 1:
-                                            echo "Ingrese el nuevo nombre: ";
-                                            $nm = trim(fgets(STDIN));
-                                            $funcion[$pos]->setNombre($nm);
-                                            break;
-                                        case 2:
-                                            do{
-                                                echo "\nIngrese la hora de inicio en formato HHmm: ";
-                                                $st = format(trim(fgets(STDIN)));
-                                                echo "\nIngrese la duracion en minutos: ";
-                                                $dr = trim(fgets(STDIN));
-                                                $j = count($funcion);
-                                                while(0<$j){
-                                                    for($i=0; $i<count($funcion); $i++){
-                                                        if($funcion[$j-1]->solap($st, $dr) and $pos != ($j-1)){
-                                                            echo "\nLa función ingresada se solapará con la función ".$funcion[$j-1]->getNombre();
-                                                            echo "\nIngrese nuevamente los datos de la función evitando lo anterior mencionado.";
-                                                            $i--;
-                                                            continue 3;
-                                                        }else{
-                                                            $j--;
-                                                        }
-                                                    }
-                                                }
-                                                if($j==0){
-                                                    break;
-                                                }
-                                            }while($funcion[$j-1]->solap($st, $dr));
-                                            $funcion[$pos]->setHoraInicio($st);
-                                            $funcion[$pos]->duracion($dr);
-                                            break;
-                                        case 3:
-                                            echo "Ingrese el nuevo precio: ";
-                                            $pr = trim(fgets(STDIN));
-                                            $funcion[$pos]->setPrecio($pr);
-                                            break;
-                                        case 4:
-                                            echo "Ingrese el número de la funcion a modificar";
-                                            $pos = trim(fgets(STDIN)) - 1;
-                                            break;
-                                        case 5: break;
-                                        default:
-                                            echo "Opción inválida, intente nuevamente.";
-                                            break;
-                                    }
-                                }while($tres != 5);
-                                break;
-                            case 3:
-                                echo "Ingrese el numero de la funcion a eliminar:";
-                                $pos = trim(fgets(STDIN)) - 1;
-                                $ver = true;
-                                if(is_int($pos) and 0<$pos and $pos<=count($funcion)){
-                                    unset($funcion[$pos]);
-                                    $funcion = array_values($funcion);
-                                    $ver = false;
-                                }elseif(is_int($pos) and 0>$pos or $pos>=count($funcion)){
-                                    echo "No existe la funcion, verifique el valor ingresado.";
-                                }else{
-                                    echo "Ingrese una número entero.";
-                                }
-                            case 4:
-                                for($i=0; $i<count($funcion); $i++){
-                                    $str .= "Función ".($i+1)."\n".$funcion[$i]."\n";
-                                }
-                                echo $str;
-                                break;
-                            case 5: break;
-                            default:
-                                echo "Opción inválida, intente nuevamente.";
-                                break;
-                        }
-                    }while($dos != 5);
+                    cuatro();
                 }
                 break;
             case 5:
@@ -271,5 +149,133 @@
         }
         $arrayHora = array($horas, $minutos);
         return $arrayHora;
+    }
+
+    function cuatro(){
+        do{
+            $dos = subMenu();
+            switch($dos){
+                case 1:
+                    do{
+                        echo "\nIngrese el nombre de la nueva función:";
+                        $nm = trim(fgets(STDIN));
+                        echo "\nIngrese la hora de inicio en formato HHmm: ";
+                        $st = format(trim(fgets(STDIN)));
+                        echo "\nIngrese la duracion en minutos: ";
+                        $dr = trim(fgets(STDIN));
+                        $j = count($funcion);
+                        while(0<$j){
+                            for($i=0; $i<count($funcion); $i++){
+                                if($funcion[$j-1]->solap($st, $dr)){
+                                    echo "\nLa función ingresada se solapará con la función ".$funcion[$j-1]->getNombre();
+                                    echo "\nIngrese nuevamente los datos de la función evitando lo anterior mencionado.";
+                                    $i--;
+                                    continue 3;
+                                }else{
+                                    $j--;
+                                }
+                            }
+                        }
+                    if($j==0){
+                        break;
+                    }
+                    }while($funcion[$j-1]->solap($st, $dr));
+                    echo "\nIngrese el precio: ";
+                    $pr = trim(fgets(STDIN));
+                    $pos = count($funcion);
+                    $funcion[$pos] = new Funcion($nm, $st, $dr, $pr);
+                    break;
+                case 2:
+                    do{
+                        echo "Ingrese el número de la funcion a modificar";
+                        $pos = trim(fgets(STDIN)) - 1;
+                        $ver = true;
+                        if(is_int($pos) and 0<$pos and $pos<=count($funcion)){
+                            $ver = false;
+                        }elseif(is_int($pos) and 0>$pos or $pos>=count($funcion)){
+                            echo "No existe la funcion, verifique el valor ingresado.";
+                        }else{
+                            echo "Ingrese una número entero.";
+                        }
+                    }while($ver);
+                    cuatroDos();
+                    break;
+                case 3:
+                    echo "Ingrese el numero de la funcion a eliminar:";
+                    $pos = trim(fgets(STDIN)) - 1;
+                    $ver = true;
+                    if(is_int($pos) and 0<$pos and $pos<=count($funcion)){
+                        unset($funcion[$pos]);
+                        $funcion = array_values($funcion);
+                        $ver = false;
+                    }elseif(is_int($pos) and 0>$pos or $pos>=count($funcion)){
+                        echo "No existe la funcion, verifique el valor ingresado.";
+                    }else{
+                        echo "Ingrese una número entero.";
+                    }
+                case 4:
+                    for($i=0; $i<count($funcion); $i++){
+                        $str .= "Función ".($i+1)."\n".$funcion[$i]."\n";
+                    }
+                    echo $str;
+                    break;
+                case 5: break;
+                default:
+                    echo "Opción inválida, intente nuevamente.";
+                    break;
+            }
+        }while($dos != 5);
+    }
+
+    function cuatroDos(){
+        do{
+            $tres = subSubMenu();
+            switch($tres){
+                case 1:
+                    echo "Ingrese el nuevo nombre: ";
+                    $nm = trim(fgets(STDIN));
+                    $funcion[$pos]->setNombre($nm);
+                    break;
+                case 2:
+                    do{
+                        echo "\nIngrese la hora de inicio en formato HHmm: ";
+                        $st = format(trim(fgets(STDIN)));
+                        echo "\nIngrese la duracion en minutos: ";
+                        $dr = trim(fgets(STDIN));
+                        $j = count($funcion);
+                        while(0<$j){
+                            for($i=0; $i<count($funcion); $i++){
+                                if($funcion[$j-1]->solap($st, $dr) and $pos != ($j-1)){
+                                    echo "\nLa función ingresada se solapará con la función ".$funcion[$j-1]->getNombre();
+                                    echo "\nIngrese nuevamente los datos de la función evitando lo anterior mencionado.";
+                                    $i--;
+                                    continue 3;
+                                }else{
+                                    $j--;
+                                }
+                            }
+                        }
+                        if($j==0){
+                            break;
+                        }
+                    }while($funcion[$j-1]->solap($st, $dr));
+                    $funcion[$pos]->setHoraInicio($st);
+                    $funcion[$pos]->duracion($dr);
+                    break;
+                case 3:
+                    echo "Ingrese el nuevo precio: ";
+                    $pr = trim(fgets(STDIN));
+                    $funcion[$pos]->setPrecio($pr);
+                    break;
+                case 4:
+                    echo "Ingrese el número de la funcion a modificar";
+                    $pos = trim(fgets(STDIN)) - 1;
+                    break;
+                case 5: break;
+                default:
+                    echo "Opción inválida, intente nuevamente.";
+                    break;
+            }
+        }while($tres != 5);
     }
 ?>
