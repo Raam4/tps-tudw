@@ -76,6 +76,10 @@ class Teatro{
 					/*ESTO NO $this->setColObjFuncion($row2['colObjFuncion']);
 					*hay que buscar e instanciar todas las funciones para crear el array.
 					*/
+					$cnd = "idTeatro = ".$idTeatro;
+					$objFuncion = new Funcion();
+					$colObjFuncion = $objFuncion->listar($cnd);
+					$this->setColObjFuncion($colObjFuncion);
 					$resp= true;
 				}				
             }else{
