@@ -129,8 +129,8 @@ class Funcion{
                     $arr['duracion'] = $row2['duracion'];
                     $arr['precio'] = $row2['precio'];
                     $arr['costo'] = $row2['costo'];
-                    $idTeatro = $row2['idTeatro'];
-                    /*$arr['objTeatro'] = new Teatro();
+                    /*$arr['objTeatro'] = $row2['idTeatro'];
+                    $arr['objTeatro'] = new Teatro();
                     $arr['objTeatro']->buscar($idTeatro);*/
                     $fun = new Funcion();
                     $fun->cargar($arr);

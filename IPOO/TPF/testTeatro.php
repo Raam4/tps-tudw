@@ -1,28 +1,38 @@
 <?php
 include_once "ABM/abmTeatro.php";
 include_once "ABM/abmFuncionObra.php";
+include_once "ABM/abmFuncionCine.php";
+include_once "ABM/abmFuncionMusical.php";
 
-$ttr = new abmTeatro();
-$objTeatro = $ttr->selectTeatro(10);
+function menues($par){
+	if($par){
+		//Seleccionar o crear un teatro
+		echo "\nOpciones del teatro $ :";//mostrar el nombre
+		echo "\n1| Modificar el nombre.";
+		echo "\n2| Modificar la dirección.";
+		echo "\n3| Modificar las funciones del teatro.";
+		echo "\n4| Calcular los costos totales del teatro.";
+		echo "\n5| Eliminar el teatro.";
+		echo "\n6| Seleccionar otro teatro";
+		echo "\n7| Finalizar programa.";
+	}else{
+		//Seleccionar o crear una funcion
+		echo "\nOpciones de la funcion $ :";//mostrar el nombre o id
+		echo "\n1| Modificar los datos.";
+		echo "\n2| Calcular el costo de la actividad.";
+		echo "\n3| Eliminar la funcion seleccionada.";
+		echo "\n4| Seleccionar otra funcion.";
+		echo "\n5| Volver al menú principal.";
+	}
+	$opcion = trim(fgets(STDIN));
+	return $opcion;
+}
 
-/*$func = new abmObra();
-$obra = array();
-$obra['nombre'] = "nombre";
-$obra['horaInicio'] = date("H:i:s");
-$obra['duracion'] = date("H:i:s");
-$obra['precio'] = 123;
-$obra['costo'] = 123;
-$obra['objTeatro'] = $objTeatro;
-$obra['porcInc'] = 20;
+//ppal
+do{
+	$ppal = menues(True);
+	switch($ppal){
 
-$conf = $func->insertObra($obra);
-if($conf){
-	print("ok");
-}else{
-	print("not ok");
-}*/
-
-print $objTeatro;
-
-
+	}
+}while($ppal != 7);
 ?>
