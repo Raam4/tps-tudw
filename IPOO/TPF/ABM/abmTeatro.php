@@ -6,17 +6,30 @@ class abmTeatro{
         $objTeatro->setNombre($nombre);
         $objTeatro->setDireccion($direccion);
         $rpta = $objTeatro->insertar();
-        return $rpta;
+        if($rpta){
+            return $objTeatro;
+        }else{
+            return null;
+        }
     }
 
     function selectTeatro($idTeatro){
         $objTeatro = new Teatro();
-        $objTeatro->buscar($idTeatro);
-        return $objTeatro;
+        $rpta = $objTeatro->buscar($idTeatro, True);
+        if($rpta){
+            return $objTeatro;
+        }else{
+            return null;
+        }
     }
+
     //update de nombre
-    function updateNomTeatro($objTeatro, $nombre){
-        $objTeatro->setNombre($nombre);
+    function updateTeatro($objTeatro, $var, $par){
+        if($par){
+            $objTeatro->setNombre($var);
+        }else{
+            $objTeatro->setDireccion($var);
+        }
         $rpta = $objTeatro->modificar();
         return $rpta;
     }
@@ -26,6 +39,10 @@ class abmTeatro{
         return $rpta;
     }
 
-    
+    function listTeatro(){
+        $objTeatro = new Teatro();
+        $colObjTeatro = $objTeatro->listar($var = "");
+        return $colObjTeatro;
+    }
 }
 ?>

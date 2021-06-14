@@ -98,7 +98,7 @@ class Funcion{
                     $this->setCosto($row2['costo']);
                     $idTeatro = $row2['idTeatro'];
                     $objTeatro = new Teatro();
-                    $objTeatro->buscar($idTeatro);
+                    $objTeatro->buscar($idTeatro, True);
                     $this->setObjTeatro($objTeatro);
                     $resp= true;
                 }
@@ -129,9 +129,9 @@ class Funcion{
                     $arr['duracion'] = $row2['duracion'];
                     $arr['precio'] = $row2['precio'];
                     $arr['costo'] = $row2['costo'];
-                    /*$arr['objTeatro'] = $row2['idTeatro'];
+                    $idTeatro = $row2['idTeatro'];
                     $arr['objTeatro'] = new Teatro();
-                    $arr['objTeatro']->buscar($idTeatro);*/
+                    $arr['objTeatro']->buscar($idTeatro, False);
                     $fun = new Funcion();
                     $fun->cargar($arr);
                     array_push($arrayFuncion, $fun);
@@ -202,11 +202,13 @@ class Funcion{
 
 
     public function __toString(){
-        return "\nNombre de la función: ".$this->getNombre().
+        return "\nID de Funcion: ".$this->getIdFuncion().
+               "\nNombre de la función: ".$this->getNombre().
                "\nHora de inicio: ".$this->getHoraInicio().
                "\nDuración: ".$this->getDuracion().
                "\nPrecio: $".$this->getPrecio().
-               "\nCosto: $".$this->getCosto();
+               "\nCosto: $".$this->getCosto().
+               "\nObj Teatro: ".$this->getObjTeatro();
     }
 }
 ?>

@@ -12,13 +12,22 @@ class abmCine{
         $objCine->setPaisOrigen($data['paisOrigen']);
         $objCine->setPorcInc($data['porcInc']);
         $rpta = $objCine->insertar();
-        return $rpta;
+        if($rpta){
+            return $objCine;
+        }else{
+            return null;
+        }
     }
 
     function selectCine($idFuncion){
         $objCine = new Cine();
-        $objCine->buscar($idFuncion);
-        return $objCine;
+        if($objCine->buscar($idFuncion)){
+            return $objCine;
+        }else{
+            return null;
+        }
+
+        
     }
     //update de nombre
     function updateNomCine($objCine, $nombre){

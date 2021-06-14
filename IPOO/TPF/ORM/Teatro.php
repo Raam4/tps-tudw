@@ -67,7 +67,7 @@ class Teatro{
         return $str;
     }
 		
-    public function buscar($idTeatro){
+    public function buscar($idTeatro, $param){
 		$base=new BaseDatos();
 		$qryTeatro="SELECT * FROM teatro WHERE idTeatro=".$idTeatro;
 		$resp= false;
@@ -94,12 +94,14 @@ class Teatro{
 						$colObjMusical = array();
 					}
 					$colObjFuncion = array_merge($colObjObra, $colObjCine, $colObjMusical);*/
-					$ObjFuncion = new Funcion();
-					$colObjFuncion = $ObjFuncion->listar($cnd);
-					if(is_null($colObjFuncion)){
-						$colObjFuncion = array();
+					if($param){
+						$ObjFuncion = new Funcion();
+						$colObjFuncion = $ObjFuncion->listar($cnd);
+						if(is_null($colObjFuncion)){
+							$colObjFuncion = array();
+						}
+						$this->setColObjFuncion($colObjFuncion);
 					}
-					$this->setColObjFuncion($colObjFuncion);
 					$resp= true;
 				}				
             }else{
@@ -124,7 +126,7 @@ class Teatro{
 				$arrayTeatro= array();
 				while($row2=$base->Registro()){
 					$ttr['idTeatro']=$row2['idTeatro'];
-					$ttr['Nombre']=$row2['nombre'];
+					$ttr['nombre']=$row2['nombre'];
 					$ttr['direccion']=$row2['direccion'];
 					$cnd = "idTeatro = ".$ttr['idTeatro'];
 					/*$objObra = new Obra();
@@ -155,8 +157,10 @@ class Teatro{
 		$qryInsert="INSERT INTO teatro(nombre, direccion) 
 				VALUES ('".$this->getNombre()."','".$this->getDireccion()."')";
 		if($base->Iniciar()){
-			if($base->Ejecutar($qryInsert)){
-			    $resp=  true;
+			$id = $base->devuelveIDInsercion($qryInsert);
+			if(!is_null($id)){
+			    $resp = true;
+                $this->setIdTeatro($id);
 			}else{
 				$this->setMsjOp($base->getError());
 			}
@@ -210,14 +214,15 @@ class Teatro{
 
 	public function __toString(){
 		$col = $this->getColObjFuncion();
-		if(is_null($col)){
-			$col = "";
-		}else{
+		if($col != ""){
         	$str = $this->colToStr($col);
+		}else{
+			$str = "";
 		}
-	    return "\nNombre: ".$this->getNombre().
-               "\nDireccion:".$this->getDireccion().
-               "\nFunciones: ".$str;
+	    return "\nID teatro: ".$this->getIdTeatro().
+			   "\nNombre: ".$this->getNombre().
+               "\nDireccion: ".$this->getDireccion().
+               "\nFunciones:\n".$str."\n";
 	}
 }
 ?>

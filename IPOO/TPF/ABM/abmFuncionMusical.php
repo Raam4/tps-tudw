@@ -12,13 +12,20 @@ class abmMusical{
         $objMusical->setCantPersonas($data['cantPersonas']);
         $objMusical->setPorcInc($data['porcInc']);
         $rpta = $objMusical->insertar();
-        return $rpta;
+        if($rpta){
+            return $objMusical;
+        }else{
+            return null;
+        }
     }
 
     function selectMusical($idFuncion){
         $objMusical = new Musical();
-        $objMusical->buscar($idFuncion);
-        return $objMusical;
+        if($objMusical->buscar($idFuncion)){
+            return $objMusical;
+        }else{
+            return null;
+        }
     }
     //update de nombre
     function updateNomMusical($objMusical, $nombre){

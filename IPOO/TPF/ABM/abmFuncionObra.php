@@ -10,13 +10,20 @@ class abmObra{
         $objObra->setObjTeatro($data['objTeatro']);
         $objObra->setPorcInc($data['porcInc']);
         $rpta = $objObra->insertar();
-        return $rpta;
+        if($rpta){
+            return $objObra;
+        }else{
+            return null;
+        }
     }
 
     function selectObra($idFuncion){
         $objObra = new Obra();
-        $objObra->buscar($idFuncion);
-        return $objObra;
+        if($objObra->buscar($idFuncion)){
+            return $objObra;
+        }else{
+            return null;
+        }
     }
     //update de nombre
     function updateNomObra($objObra, $nombre){
