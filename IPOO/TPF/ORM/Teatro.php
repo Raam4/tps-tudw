@@ -1,58 +1,62 @@
 <?php
 include_once "BaseDatos.php";
+include_once "Funcion.php";
+include_once "FuncionObra.php";
+include_once "FuncionCine.php";
+include_once "FuncionMusical.php";
 class Teatro{
-    private $idTeatro;
+	private $ttr;
+    /*private $idTeatro;
 	private $nombre;
 	private $direccion;
 	private $colObjFuncion;
-	private $msjOp;
+	private $msjOp;*/
 
 
 	public function __construct(){
-		$this->idTeatro = 0;
-		$this->nombre = "";
-		$this->direccion = "";
-		$this->colObjFuncion = "";
+		$this->ttr['nombre'] = "";
+		$this->ttr['direccion'] = "";
+		$this->ttr['colObjFuncion'] = "";
 	}
 
-	public function cargar($idTeatro,$nombre,$direccion,$colObjFuncion){		
-		$this->setIdTeatro($idTeatro);
-		$this->setNombre($nombre);
-		$this->setDireccion($direccion);
-		$this->setColObjFuncion($colObjFuncion);
+	public function cargar($ttr){		
+		$this->setIdTeatro($ttr['idTeatro']);
+		$this->setNombre($ttr['nombre']);
+		$this->setDireccion($ttr['direccion']);
+		$this->setColObjFuncion($ttr['colObjFuncion']);
     }
 	
 	
     public function setIdTeatro($idTeatro){
-		$this->idTeatro=$idTeatro;
+		$this->ttr['idTeatro'] = $idTeatro;
 	}
 	public function setNombre($nombre){
-		$this->nombre=$nombre;
+		$this->ttr['nombre'] = $nombre;
 	}
 	public function setDireccion($direccion){
-		$this->direccion=$direccion;
+		$this->ttr['direccion'] = $direccion;
 	}
 	public function setColObjFuncion($colObjFuncion){
-		$this->colObjFuncion=$colObjFuncion;
+		$this->ttr['colObjFuncion'] = $colObjFuncion;
 	}
 	public function setMsjOp($msjOp){
-		$this->msjOp=$msjOp;
+		$this->ttr['msjOp'] = $msjOp;
 	}
 	
 	public function getIdTeatro(){
-		return $this->idTeatro;
+		return $this->ttr['idTeatro'];
 	}
 	public function getNombre(){
-		return $this->nombre ;
+		return $this->ttr['nombre'];
 	}
 	public function getDireccion(){
-		return $this->direccion ;
+		return $this->ttr['direccion'];
 	}
 	public function getcolObjFuncion(){
-		return $this->colObjFuncion ;
+		return $this->ttr['colObjFuncion'];
 	}
 	public function getMsjOp(){
-		return $this->msjOp ;
+		return $this->ttr['msjOp'];
 	}
 
     public function colToStr($col){
@@ -63,7 +67,7 @@ class Teatro{
         return $str;
     }
 		
-    public function Buscar($idTeatro){
+    public function buscar($idTeatro){
 		$base=new BaseDatos();
 		$qryTeatro="SELECT * FROM teatro WHERE idTeatro=".$idTeatro;
 		$resp= false;
@@ -74,13 +78,27 @@ class Teatro{
 					$this->setNombre($row2['nombre']);
 					$this->setDireccion($row2['direccion']);
 					$cnd = "idTeatro = ".$idTeatro;
-					$objObra = new Obra();
+					/*$objObra = new Obra();
 					$colObjObra = $objObra->listar($cnd);
+					if(is_null($colObjObra)){
+						$colObjObra = array();
+					}
 					$objCine = new Cine();
 					$colObjCine = $objCine->listar($cnd);
+					if(is_null($colObjCine)){
+						$colObjCine = array();
+					}
 					$objMusical = new Musical();
 					$colObjMusical = $objMusical->listar($cnd);
-					$colObjFuncion = array_merge($colObjObra, $colObjCine, $colObjMusical);
+					if(is_null($colObjMusical)){
+						$colObjMusical = array();
+					}
+					$colObjFuncion = array_merge($colObjObra, $colObjCine, $colObjMusical);*/
+					$ObjFuncion = new Funcion();
+					$colObjFuncion = $ObjFuncion->listar($cnd);
+					if(is_null($colObjFuncion)){
+						$colObjFuncion = array();
+					}
 					$this->setColObjFuncion($colObjFuncion);
 					$resp= true;
 				}				
@@ -105,12 +123,21 @@ class Teatro{
 			if($base->Ejecutar($qryTeatro)){				
 				$arrayTeatro= array();
 				while($row2=$base->Registro()){
-					$idTeatro=$row2['idTeatro'];
-					$Nombre=$row2['nombre'];
-					$direccion=$row2['direccion'];
-					$colObjFuncion=$row2['colObjFuncion'];
-					$teat=new teat();
-					$teat->cargar($idTeatro,$Nombre,$direccion,$colObjFuncion);
+					$ttr['idTeatro']=$row2['idTeatro'];
+					$ttr['Nombre']=$row2['nombre'];
+					$ttr['direccion']=$row2['direccion'];
+					$cnd = "idTeatro = ".$ttr['idTeatro'];
+					/*$objObra = new Obra();
+					$colObjObra = $objObra->listar($cnd);
+					$objCine = new Cine();
+					$colObjCine = $objCine->listar($cnd);
+					$objMusical = new Musical();
+					$colObjMusical = $objMusical->listar($cnd);
+					$ttr['$colObjFuncion'] = array_merge($colObjObra, $colObjCine, $colObjMusical);*/
+					$ObjFuncion = new Funcion();
+					$ttr['colObjFuncion'] = $ObjFuncion->listar($cnd);
+					$teat=new Teatro();
+					$teat->cargar($ttr);
 					array_push($arrayTeatro,$teat);
 				}
 		 	}else{
@@ -125,8 +152,8 @@ class Teatro{
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$qryInsert="INSERT INTO teatro(idTeatro, direccion, nombre, colObjFuncion) 
-				VALUES (".$this->getIdTeatro().",'".$this->getDireccion()."','".$this->getNombre()."','".$this->getcolObjFuncion()."')";
+		$qryInsert="INSERT INTO teatro(nombre, direccion) 
+				VALUES ('".$this->getNombre()."','".$this->getDireccion()."')";
 		if($base->Iniciar()){
 			if($base->Ejecutar($qryInsert)){
 			    $resp=  true;
@@ -142,8 +169,7 @@ class Teatro{
 	public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$qryUpdate="UPDATE teatro SET nombre='".$this->getNombre()."', direccion='".$this->getDireccion()."'
-                           , colObjFuncion='".$this->getcolObjFuncion()."' WHERE idTeatro=". $this->getIdTeatro();
+		$qryUpdate="UPDATE teatro SET nombre='".$this->getNombre()."', direccion='".$this->getDireccion()."' WHERE idTeatro=". $this->getIdTeatro();
 		if($base->Iniciar()){
 			if($base->Ejecutar($qryUpdate)){
 			    $resp=  true;
@@ -162,6 +188,14 @@ class Teatro{
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
+			if($base->Iniciar()){
+				$colFunciones = $this->getColObjFuncion();
+				if(count($colFunciones) != 0){
+					foreach($colFunciones as $key){
+						$key->eliminar();
+					}
+				}
+			}
 			$qryDelete="DELETE FROM teatro WHERE idTeatro=".$this->getIdTeatro();
 			if($base->Ejecutar($qryDelete)){
 				$resp=  true;
@@ -175,7 +209,12 @@ class Teatro{
 	}
 
 	public function __toString(){
-        $str = $this->colToStr($this->getColObjFuncion);
+		$col = $this->getColObjFuncion();
+		if(is_null($col)){
+			$col = "";
+		}else{
+        	$str = $this->colToStr($col);
+		}
 	    return "\nNombre: ".$this->getNombre().
                "\nDireccion:".$this->getDireccion().
                "\nFunciones: ".$str;

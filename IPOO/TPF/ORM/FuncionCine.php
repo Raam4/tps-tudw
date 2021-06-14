@@ -1,58 +1,54 @@
 <?php
-    include_once "BaseDatos.php";
-    include_once "Funcion.php";
-    class Musical extends Funcion{
+    class Cine extends Funcion{
     
-        private $director;
-        private $cantPersonas;
-        private $porcInc;
+        private $fnc;
     
         public function __construct(){
             parent::__construct();
-            $this->director = "";
-            $this->cantPersonas = "";
-            $this->porcInc = "";
+            $this->fnc['genero'] = "";
+            $this->fnc['paisOrigen'] = "";
+            $this->fnc['porcInc'] = "";
         }
     
-        public function cargar($nombre, $horaInicio, $duracion, $precio, $costo, $director, $cantPersonas, $porcInc){
-            parent::cargar($nombre, $horaInicio, $duracion, $precio, $costo);
-            $this->setDirector($director);
-            $this->cantPersonas($cantPersonas);
+        public function cargar($fnc){
+            parent::cargar($fnc);
+            $this->setGenero($genero);
+            $this->paisOrigen($paisOrigen);
             $this->setPorcInc($porcInc);
         }
 
-        public function setDirector($director){
-            $this->director = $director;
+        public function setGenero($genero){
+            $this->fnc['genero'] = $genero;
         }
-        public function getDirector(){
-            return $this->director;
+        public function getGenero(){
+            return $this->fnc['genero'];
         }
 
-        public function setCantPersonas($cantPersonas){
-            $this->cantPersonas = $cantPersonas;
+        public function setPaisOrigen($paisOrigen){
+            $this->fnc['paisOrigen'] = $paisOrigen;
         }
-        public function getCantPersonas(){
-            return $this->cantPersonas;
+        public function getPaisOrigen(){
+            return $this->fnc['paisOrigen'];
         }
 
         public function setPorcInc($porcInc){
-            $this->porcInc = $porcInc;
+            $this->fnc['porcInc'] = $porcInc;
         }
         public function getPorcInc(){
-            return $this->porcInc;
+            return $this->fnc['porcInc'];
         }
     
     
         public function buscar($idFuncion){
             $base=new BaseDatos();
-            $qry="SELECT * FROM musical WHERE idFuncion=".$idFuncion;
+            $qry="SELECT * FROM cine WHERE idFuncion=".$idFuncion;
             $resp= false;
             if($base->Iniciar()){
                 if($base->Ejecutar($qry)){
                     if($row2=$base->Registro()){
                         parent::buscar($idFuncion);
-                        $this->setDirector($row2['director']);
-                        $this->setCantPersonas($row2['cantPersonas']);
+                        $this->setGenero($row2['genero']);
+                        $this->setPaisOrigen($row2['paisOrigen']);
                         $this->setPorcInc($row2['porcInc']);
                         $resp = true;
                     }
@@ -68,18 +64,18 @@
         public function listar($condicion=""){
             $arreglo = null;
             $base = new BaseDatos();
-            $consulta = "SELECT * FROM musical ";
+            $consulta = "SELECT * FROM cine ";
             if($condicion!=""){
                 $consulta=$consulta.' WHERE '.$condicion;
             }
-            $consulta.=" ORDER BY nombre";
+            $consulta.=" ORDER BY idFuncion";
             if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){				
                     $arreglo = array();
                     while($row2=$base->Registro()){
-                        $obj=new musical();
-                        $obj->Buscar($row2['idFuncion']);
-                        array_push($arreglo,$obj);
+                        $obj=new Cine();
+                        $obj->buscar($row2['idFuncion']);
+                        array_push($arreglo, $obj);
                     }
                  }else{
                      $this->setMsjOp($base->getError());
@@ -94,8 +90,8 @@
             $base=new BaseDatos();
             $resp= false;
             if(parent::insertar()){
-                $consultaInsertar="INSERT INTO musical(idFuncion, director, cantPersonas, porcInc)
-                    VALUES (".parent::getIdFuncion().",'".$this->getDirector()."','".$this->getCantPersonas()."',".$this->getPorcInc().")";
+                $consultaInsertar="INSERT INTO cine(idFuncion, genero, paisOrigen, porcInc)
+                    VALUES (".parent::getIdFuncion().",'".$this->getGenero()."','".$this->getPaisOrigen()."',".$this->getPorcInc().")";
                 if($base->Iniciar()){
                     if($base->Ejecutar($consultaInsertar)){
                         $resp =  true;
@@ -113,7 +109,7 @@
             $resp = false; 
             $base = new BaseDatos();
             if(parent::modificar()){
-                $qryUpdate="UPDATE musical SET porcInc=".$this->getPorcInc().", director='".$this->getDirector()."', cantPersonas='".$this->getCantPersonas()."' WHERE idFuncion=". parent::getIdFuncion();
+                $qryUpdate="UPDATE cine SET genero='".$this->getGenero()."', paisOrigen='".$this->getPaisOrigen()."', porcInc=".$this->getPorcInc()." WHERE idFuncion=". parent::getIdFuncion();
                 if($base->Iniciar()){
                     if($base->Ejecutar($qryUpdate)){
                         $resp = true;
@@ -131,7 +127,7 @@
             $base = new BaseDatos();
             $resp = false;
             if($base->Iniciar()){
-                    $qryDelete="DELETE FROM musical WHERE idFuncion=".parent::getIdFuncion();
+                    $qryDelete="DELETE FROM cine WHERE idFuncion=".parent::getIdFuncion();
                     if($base->Ejecutar($qryDelete)){
                         if(parent::eliminar()){
                             $resp = true;
@@ -147,8 +143,8 @@
     
         public function __toString(){
             return parent::__toString().
-                   "\n Director: ".$this->getDirector().
-                   "\n Cantidad de Personas en Escena: ".$this->getCantPersonas().
+                   "\n Genero: ".$this->getGenero().
+                   "\n Pais de Origen: ".$this->getPaisOrigen().
                    "\n Porcentaje de Incremento: ".$this->getPorcInc();
         }
     }

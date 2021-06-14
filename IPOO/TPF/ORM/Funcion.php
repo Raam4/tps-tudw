@@ -1,91 +1,87 @@
 <?php
 include_once "BaseDatos.php";
 class Funcion{
-    /**
-    * Atributos
-    * String $nombre,
-    * array int $horaInicio
-    * int $duracion
-    * int $precio
-    */
-    private $idFuncion;
-    private $nombre;
+    private $fnc;
+    /*private $nombre;
     private $horaInicio;
     private $duracion;
     private $precio;
     private $costo;
     private $objTeatro;
-    private $msjOp;
+    private $msjOp;*/
 
     //Metodo Constructor
     public function __construct(){
-        $this->$idFuncion = 0;
-        $this->nombre = "";
-        $this->horaInicio = "";
-        $this->duracion = "";
-        $this->precio = "";
-        $this->costo = "";
-        $this->objTeatro = "";
-    }
-    public function cargar($nombre, $horaInicio, $duracion, $precio, $costo, $objTeatro){
-        $this->setNombre($nombre);
-        $this->setHoraInicio($horaInicio);
-        $this->setDuracion($duracion);
-        $this->setPrecio($precio);
-        $this->setCosto($costo);
-        $this->setObjTeatro($objTeatro);
+        $this->fnc['idFuncion'] = "";
+        $this->fnc['nombre'] = "";
+        $this->fnc['horaInicio'] = "";
+        $this->fnc['duracion'] = "";
+        $this->fnc['precio'] = "";
+        $this->fnc['costo'] = "";
+        $this->fnc['objTeatro'] = "";
     }
 
-    //Modificadoras
+    public function cargar($fnc){
+        $this->setIdFuncion($fnc['idFuncion']);
+        $this->setNombre($fnc['nombre']);
+        $this->setHoraInicio($fnc['horaInicio']);
+        $this->setDuracion($fnc['duracion']);
+        $this->setPrecio($fnc['precio']);
+        $this->setCosto($fnc['costo']);
+        $this->setObjTeatro($fnc['objTeatro']);
+    }
+    
+    
     public function setIdFuncion($idFuncion){
-        $this->idFuncion = $idFuncion;
+        $this->fnc['idFuncion'] = $idFuncion;
     }
     public function setNombre($nombre){
-        $this->nombre = $nombre;
+        $this->fnc['nombre'] = $nombre;
     }
     public function setHoraInicio($horaInicio){
-        $this->horaInicio = $horaInicio;
+        $this->fnc['horaInicio'] = $horaInicio;
     }
     public function setDuracion($duracion){
-        $this->duracion = $duracion;
+        $this->fnc['duracion'] = $duracion;
     }
     public function setPrecio($precio){
-        $this->precio = $precio;
+        $this->fnc['precio'] = $precio;
     }
     public function setCosto($costo){
-        $this->costo = $costo;
+        $this->fnc['costo'] = $costo;
     }
-    public function setObjTeatro($ObjTeatro){
-        $this->objTeatro = $objTeatro;
+    public function setObjTeatro($objTeatro){
+        $this->fnc['objTeatro'] = $objTeatro;
     }
     public function setMsjOp($msjOp){
-        $this->msjOp = $msjOp;
+        $this->fnc['msjOp'] = $msjOp;
     }
     //Observadoras
-    public function getIdFuncion($idFuncion){
-        return $this->idFuncion;
+    public function getIdFuncion(){
+        return $this->fnc['idFuncion'];
     }
     public function getNombre(){
-        return $this->nombre;
+        return $this->fnc['nombre'];
     }
     public function getHoraInicio(){
-        return $this->horaInicio;
+        return $this->fnc['horaInicio'];
     }
     public function getDuracion(){
-        return $this->duracion;
+        return $this->fnc['duracion'];
     }
     public function getPrecio(){
-        return $this->precio;
+        return $this->fnc['precio'];
     }
     public function getCosto(){
-        return $this->costo;
+        return $this->fnc['costo'];
     }
     public function getObjTeatro(){
-        return $this->objTeatro;
+        return $this->fnc['objTeatro'];
     }
-    public function getMsjOp($msjOp){
-        return $this->msjOp;
+    public function getMsjOp(){
+        return $this->fnc['msjOp'];
     }
+    
     //Metodos
     public function buscar($idFuncion){
         $base = new BaseDatos();
@@ -94,13 +90,14 @@ class Funcion{
         if($base->Iniciar()){
             if($base->Ejecutar($qryFuncion)){
                 if($row2=$base->Registro()){
-                    $this->setNrodoc($idFuncion);
+                    $this->setIdFuncion($idFuncion);
                     $this->setNombre($row2['nombre']);
                     $this->setHoraInicio($row2['horaInicio']);
                     $this->setDuracion($row2['duracion']);
                     $this->setPrecio($row2['precio']);
                     $this->setCosto($row2['costo']);
                     $idTeatro = $row2['idTeatro'];
+                    $objTeatro = new Teatro();
                     $objTeatro->buscar($idTeatro);
                     $this->setObjTeatro($objTeatro);
                     $resp= true;
@@ -125,18 +122,19 @@ class Funcion{
             if($base->Ejecutar($qryFuncion)){				
                 $arrayFuncion= array();
                 while($row2 = $base->Registro()){
-                    $idFuncion = $row2['idFuncion'];
-                    $nombre = $row2['nombre'];
-                    $horaInicio = $row2['horaInicio'];
-                    $duracion = $row2['duracion'];
-                    $precio = $row2['precio'];
-                    $costo = $row2['costo'];
+                    $arr = array();
+                    $arr['idFuncion'] = $row2['idFuncion'];
+                    $arr['nombre'] = $row2['nombre'];
+                    $arr['horaInicio'] = $row2['horaInicio'];
+                    $arr['duracion'] = $row2['duracion'];
+                    $arr['precio'] = $row2['precio'];
+                    $arr['costo'] = $row2['costo'];
                     $idTeatro = $row2['idTeatro'];
-                    $objTeatro = new Teatro();
-                    $objTeatro->buscar($idTeatro);
-                    $fnc = new Funcion();
-                    $fnc->cargar($idFuncion, $nombre, $horaInicio, $duracion, $precio, $costo, $objTeatro);
-                    array_push($arrayFuncion, $fnc);
+                    /*$arr['objTeatro'] = new Teatro();
+                    $arr['objTeatro']->buscar($idTeatro);*/
+                    $fun = new Funcion();
+                    $fun->cargar($arr);
+                    array_push($arrayFuncion, $fun);
                 }                
             }else{
                 $this->setmensajeoperacion($base->getError());
@@ -155,8 +153,10 @@ class Funcion{
 		$qryInsert="INSERT INTO funcion(nombre, horaInicio, duracion, precio, costo, idTeatro) 
 				VALUES ('".$this->getNombre()."','".$this->getHoraInicio()."','".$this->getDuracion()."',".$this->getPrecio().",".$this->getCosto().",".$idTeatro.")";
 		if($base->Iniciar()){
-			if($base->Ejecutar($qryInsert)){
+            $id = $base->devuelveIDInsercion($qryInsert);
+			if(!is_null($id)){
 			    $resp = true;
+                $this->setIdFuncion($id);
 			}else{
 				$this->setMsjOp($base->getError());
             }

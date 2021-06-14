@@ -3,24 +3,24 @@ include_once "BaseDatos.php";
 include_once "Funcion.php";
 class Obra extends Funcion{
 
-    private $porcInc;
+    private $fnc;
 
     public function __construct(){
         parent::__construct();
-        $this->porcInc = "";
+        $this->fnc['porcInc'] = "";
     }
 
-    public function cargar($nombre, $horaInicio, $duracion, $precio, $costo, $porcInc){
-        parent::cargar($nombre, $horaInicio, $duracion, $precio, $costo);
-        $this->setPorcInc($porcInc);
+    public function cargar($fnc){
+        parent::cargar($fnc);
+        $this->setPorcInc($fnc['porcInc']);
     }
 
     public function setPorcInc($porcInc){
-        $this->porcInc = $porcInc;
+        $this->fnc['porcInc'] = $porcInc;
     }
     
     public function getPorcInc(){
-        return $this->porcInc;
+        return $this->fnc['porcInc'];
     }
 
 
@@ -51,14 +51,15 @@ class Obra extends Funcion{
 		if($condicion!=""){
 		    $consulta=$consulta.' WHERE '.$condicion;
 		}
-		$consulta.=" ORDER BY nombre";
+		echo $consulta;
+		$consulta.=" ORDER BY idFuncion";
 		if($base->Iniciar()){
 		    if($base->Ejecutar($consulta)){				
 			    $arreglo = array();
 				while($row2=$base->Registro()){
 					$obj=new Obra();
-					$obj->Buscar($row2['idFuncion']);
-					array_push($arreglo,$obj);
+					$obj->buscar($row2['idFuncion']);
+					array_push($arreglo, $obj);
 				}
 		 	}else{
 		 	    $this->setMsjOp($base->getError());

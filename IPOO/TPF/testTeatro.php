@@ -1,19 +1,28 @@
 <?php
-include_once "BaseDatos.php";
-include_once "Teatro.php";
+include_once "ABM/abmTeatro.php";
+include_once "ABM/abmFuncionObra.php";
 
-$teatro = new Teatro();
-$col = array();
-$teatro->cargar("Ateneo", "Calle Falsa 123", $col);
-$respuesta=$teatro->insertar();
+$ttr = new abmTeatro();
+$objTeatro = $ttr->selectTeatro(10);
 
-if ($respuesta==true) {
-	echo "\nOP INSERCION;  La persona fue ingresada en la BD";
-	$colTeatros =$teatro->listar("");
-	foreach ($colTeatros as $unTeatro){
-		echo $unTeatro;
-		echo "-------------------------------------------------------";
-	}
-}else 
-	echo $obj_Persona->getmensajeoperacion();
+/*$func = new abmObra();
+$obra = array();
+$obra['nombre'] = "nombre";
+$obra['horaInicio'] = date("H:i:s");
+$obra['duracion'] = date("H:i:s");
+$obra['precio'] = 123;
+$obra['costo'] = 123;
+$obra['objTeatro'] = $objTeatro;
+$obra['porcInc'] = 20;
+
+$conf = $func->insertObra($obra);
+if($conf){
+	print("ok");
+}else{
+	print("not ok");
+}*/
+
+print $objTeatro;
+
+
 ?>
