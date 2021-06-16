@@ -12,9 +12,9 @@
     
         public function cargar($fnc){
             parent::cargar($fnc);
-            $this->setGenero($genero);
-            $this->paisOrigen($paisOrigen);
-            $this->setPorcInc($porcInc);
+            $this->setGenero($fnc['genero']);
+            $this->setpaisOrigen($fnc['paisOrigen']);
+            $this->setPorcInc($fnc['porcInc']);
         }
 
         public function setGenero($genero){
@@ -90,8 +90,8 @@
             $base=new BaseDatos();
             $resp= false;
             if(parent::insertar()){
-                $consultaInsertar="INSERT INTO cine(idFuncion, genero, paisOrigen, porcInc)
-                    VALUES (".parent::getIdFuncion().",'".$this->getGenero()."','".$this->getPaisOrigen()."',".$this->getPorcInc().")";
+                $consultaInsertar="INSERT INTO cine(idFuncion, genero, paisOrigen)
+                    VALUES (".parent::getIdFuncion().",'".$this->getGenero()."','".$this->getPaisOrigen()."')";
                 if($base->Iniciar()){
                     if($base->Ejecutar($consultaInsertar)){
                         $resp =  true;
@@ -145,7 +145,7 @@
             return parent::__toString().
                    "\n Genero: ".$this->getGenero().
                    "\n Pais de Origen: ".$this->getPaisOrigen().
-                   "\n Porcentaje de Incremento: ".$this->getPorcInc();
+                   "\n Porcentaje de Incremento: ".$this->getPorcInc()."\n";
         }
     }
 ?>

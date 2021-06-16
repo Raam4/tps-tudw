@@ -52,7 +52,7 @@ class Teatro{
 	public function getDireccion(){
 		return $this->ttr['direccion'];
 	}
-	public function getcolObjFuncion(){
+	public function getColObjFuncion(){
 		return $this->ttr['colObjFuncion'];
 	}
 	public function getMsjOp(){
@@ -213,16 +213,15 @@ class Teatro{
 	}
 
 	public function __toString(){
+		$rtn = "\nID teatro: ".$this->getIdTeatro().
+			   "\nNombre: ".$this->getNombre().
+			   "\nDireccion: ".$this->getDireccion()."\n";
 		$col = $this->getColObjFuncion();
 		if($col != ""){
         	$str = $this->colToStr($col);
-		}else{
-			$str = "";
+			$rtn .= "Funciones:\n".$str."\n";
 		}
-	    return "\nID teatro: ".$this->getIdTeatro().
-			   "\nNombre: ".$this->getNombre().
-               "\nDireccion: ".$this->getDireccion().
-               "\nFunciones:\n".$str."\n";
+	    return $rtn;
 	}
 }
 ?>

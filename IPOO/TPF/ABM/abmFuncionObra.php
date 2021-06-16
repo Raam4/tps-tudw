@@ -1,4 +1,5 @@
 <?php
+include_once "./ORM/FuncionObra.php";
 class abmObra{
     function insertObra($data){
         $objObra = new Obra();
@@ -6,9 +7,10 @@ class abmObra{
         $objObra->setHoraInicio($data['horaInicio']);
         $objObra->setDuracion($data['duracion']);
         $objObra->setPrecio($data['precio']);
-        $objObra->setCosto($data['costo']);
         $objObra->setObjTeatro($data['objTeatro']);
         $objObra->setPorcInc($data['porcInc']);
+        $costo = $data['precio'] * (($data['porcInc'] * 0.01) + 1);
+        $objCine->setCosto($costo);
         $rpta = $objObra->insertar();
         if($rpta){
             return $objObra;
@@ -25,9 +27,11 @@ class abmObra{
             return null;
         }
     }
-    //update de nombre
-    function updateNomObra($objObra, $nombre){
-        $objObra->setNombre($nombre);
+    
+    function updateObra($arrObra){
+        $arrObra['porcInc'] = 45;
+        $objObra = new Obra();
+        $objObra->cargar($arrObra);
         $rpta = $objObra->modificar();
         return $rpta;
     }

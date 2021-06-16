@@ -1,4 +1,5 @@
 <?php
+include_once "./ORM/FuncionMusical.php";
 class abmMusical{
     function insertMusical($data){
         $objMusical = new Musical();
@@ -6,11 +7,12 @@ class abmMusical{
         $objMusical->setHoraInicio($data['horaInicio']);
         $objMusical->setDuracion($data['duracion']);
         $objMusical->setPrecio($data['precio']);
-        $objMusical->setCosto($data['costo']);
         $objMusical->setObjTeatro($data['objTeatro']);
         $objMusical->setDirector($data['director']);
         $objMusical->setCantPersonas($data['cantPersonas']);
         $objMusical->setPorcInc($data['porcInc']);
+        $costo = $data['precio'] * (($data['porcInc'] * 0.01) + 1);
+        $objCine->setCosto($costo);
         $rpta = $objMusical->insertar();
         if($rpta){
             return $objMusical;
@@ -27,9 +29,15 @@ class abmMusical{
             return null;
         }
     }
-    //update de nombre
-    function updateNomMusical($objMusical, $nombre){
-        $objMusical->setNombre($nombre);
+    
+    function updateMusical($arrMusical){
+        echo "Ingrese el director: ";
+        $arrMusical['director'] = trim(fgets(STDIN));
+        echo "Ingrese la cantidad de personas en escena: ";
+        $arrMusical['cantPersonas'] = trim(fgets(STDIN));
+        $arrMusical['porcInc'] = 12;
+        $objMusical = new Musical();
+        $objMusical->cargar($arrMusical);
         $rpta = $objMusical->modificar();
         return $rpta;
     }

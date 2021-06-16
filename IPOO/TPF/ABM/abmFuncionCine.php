@@ -1,4 +1,5 @@
 <?php
+include_once "./ORM/FuncionCine.php";
 class abmCine{
     function insertCine($data){
         $objCine = new Cine();
@@ -6,11 +7,12 @@ class abmCine{
         $objCine->setHoraInicio($data['horaInicio']);
         $objCine->setDuracion($data['duracion']);
         $objCine->setPrecio($data['precio']);
-        $objCine->setCosto($data['costo']);
         $objCine->setObjTeatro($data['objTeatro']);
         $objCine->setGenero($data['genero']);
         $objCine->setPaisOrigen($data['paisOrigen']);
         $objCine->setPorcInc($data['porcInc']);
+        $costo = $data['precio'] * (($data['porcInc'] * 0.01) + 1);
+        $objCine->setCosto($costo);
         $rpta = $objCine->insertar();
         if($rpta){
             return $objCine;
@@ -29,9 +31,15 @@ class abmCine{
 
         
     }
-    //update de nombre
-    function updateNomCine($objCine, $nombre){
-        $objCine->setNombre($nombre);
+    
+    function updateCine($arrCine){
+        echo "Ingrese el genero: ";
+        $arrCine['genero'] = trim(fgets(STDIN));
+        echo "Ingrese el país de origen: ";
+        $arrCine['paisOrigen'] = trim(fgets(STDIN));
+        $arrCine['porcInc'] = 65;
+        $objCine = new Cine();
+        $objCine->cargar($arrCine);
         $rpta = $objCine->modificar();
         return $rpta;
     }

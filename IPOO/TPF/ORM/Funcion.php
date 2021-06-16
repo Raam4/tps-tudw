@@ -137,10 +137,10 @@ class Funcion{
                     array_push($arrayFuncion, $fun);
                 }                
             }else{
-                $this->setmensajeoperacion($base->getError());
+                $this->setMsjOp($base->getError());
             }
         }else{
-            $this->setmensajeoperacion($base->getError());
+            $this->setMsjOp($base->getError());
         }	
         return $arrayFuncion;
     }
@@ -176,10 +176,10 @@ class Funcion{
 			if($base->Ejecutar($qryUpdate)){
 			    $resp = true;
 			}else{
-				$this->setmensajeoperacion($base->getError());
+				$this->setMsjOp($base->getError());
 			}
 		}else{
-				$this->setmensajeoperacion($base->getError());
+				$this->setMsjOp($base->getError());
 		}
 		return $resp;
 	}
@@ -192,10 +192,10 @@ class Funcion{
 			if($base->Ejecutar($qryDelete)){
 			    $resp = true;
 			}else{
-				$this->setmensajeoperacion($base->getError());
+				$this->setMsjOp($base->getError());
             }
 		}else{
-			$this->setmensajeoperacion($base->getError());
+			$this->setMsjOp($base->getError());
 		}
 		return $resp; 
 	}

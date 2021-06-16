@@ -74,8 +74,8 @@ class Obra extends Funcion{
 		$base=new BaseDatos();
 		$resp= false;
 		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO obra(idFuncion, porcInc)
-				VALUES (".parent::getIdFuncion().",".$this->getPorcInc().")";
+		    $consultaInsertar="INSERT INTO obra(idFuncion)
+				VALUES (".parent::getIdFuncion().")";
 		    if($base->Iniciar()){
 		        if($base->Ejecutar($consultaInsertar)){
 		            $resp =  true;
@@ -126,7 +126,7 @@ class Obra extends Funcion{
 	}
 
 	public function __toString(){
-        return parent::__toString()."\n Porcentaje de Incremento: ".$this->getPorcInc();
+        return parent::__toString()."\n Porcentaje de Incremento: ".$this->getPorcInc()."\n";
     }
 }
 ?>

@@ -41,5 +41,39 @@ class abmFuncion{
         }
         return $colObjFuncionEsp;
     }
+
+    function updateFuncion($objFuncionEsp, $objupd){
+        $abmObra = new abmObra();
+        $abmCine = new abmCine();
+        $abmMusical = new abmMusical();
+        $objupd['idFuncion'] = $objFuncionEsp->getIdFuncion();;
+        if(!is_null($abmObra->selectObra($objupd['idFuncion']))){
+            $rtn = $abmObra->updateObra($objupd);
+        }
+        if(!is_null($abmCine->selectCine($objupd['idFuncion']))){
+            $rtn = $abmCine->updateCine($objupd);
+        }
+        if(!is_null($abmMusical->selectMusical($objupd['idFuncion']))){
+            $rtn = $abmMusical->updateMusical($objupd);
+        }
+        return $rtn;
+    }
+
+    function deleteFuncion($objFuncionEsp){
+        $abmObra = new abmObra();
+        $abmCine = new abmCine();
+        $abmMusical = new abmMusical();
+        $idFuncionEsp = $objFuncionEsp->getIdFuncion();
+        if(!is_null($objObra = $abmObra->selectObra($idFuncionEsp))){
+            $rtn = $abmObra->deleteObra($objObra);
+        }
+        if(!is_null($objCine = $abmCine->selectCine($idFuncionEsp))){
+            $rtn = $abmCine->deleteCine($objCine);
+        }
+        if(!is_null($objMusical = $abmMusical->selectMusical($idFuncionEsp))){
+            $rtn = $abmMusical->deleteMusical($objMusical);
+        }
+        return $rtn;
+    }
 }
 ?>

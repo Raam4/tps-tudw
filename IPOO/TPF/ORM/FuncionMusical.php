@@ -14,9 +14,9 @@
     
         public function cargar($fnc){
             parent::cargar($fnc);
-            $this->setDirector($director);
-            $this->cantPersonas($cantPersonas);
-            $this->setPorcInc($porcInc);
+            $this->setDirector($fnc['director']);
+            $this->setcantPersonas($fnc['cantPersonas']);
+            $this->setPorcInc($fnc['porcInc']);
         }
 
         public function setDirector($director){
@@ -92,8 +92,8 @@
             $base=new BaseDatos();
             $resp= false;
             if(parent::insertar()){
-                $consultaInsertar="INSERT INTO musical(idFuncion, director, cantPersonas, porcInc)
-                    VALUES (".parent::getIdFuncion().",'".$this->getDirector()."','".$this->getCantPersonas()."',".$this->getPorcInc().")";
+                $consultaInsertar="INSERT INTO musical(idFuncion, director, cantPersonas)
+                    VALUES (".parent::getIdFuncion().",'".$this->getDirector()."',".$this->getCantPersonas().")";
                 if($base->Iniciar()){
                     if($base->Ejecutar($consultaInsertar)){
                         $resp =  true;
@@ -147,7 +147,7 @@
             return parent::__toString().
                    "\n Director: ".$this->getDirector().
                    "\n Cantidad de Personas en Escena: ".$this->getCantPersonas().
-                   "\n Porcentaje de Incremento: ".$this->getPorcInc();
+                   "\n Porcentaje de Incremento: ".$this->getPorcInc()."\n";
         }
     }
 ?>
