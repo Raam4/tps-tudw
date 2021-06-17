@@ -10,7 +10,7 @@ class abmObra{
         $objObra->setObjTeatro($data['objTeatro']);
         $objObra->setPorcInc($data['porcInc']);
         $costo = $data['precio'] * (($data['porcInc'] * 0.01) + 1);
-        $objCine->setCosto($costo);
+        $objObra->setCosto($costo);
         $rpta = $objObra->insertar();
         if($rpta){
             return $objObra;
@@ -30,6 +30,7 @@ class abmObra{
     
     function updateObra($arrObra){
         $arrObra['porcInc'] = 45;
+        $arrObra['costo'] = $arrObra['precio'] * (($arrObra['porcInc'] * 0.01) + 1);
         $objObra = new Obra();
         $objObra->cargar($arrObra);
         $rpta = $objObra->modificar();

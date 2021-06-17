@@ -202,13 +202,14 @@ class Funcion{
 
 
     public function __toString(){
+        $idTeatro = ($this->getObjTeatro())->getIdTeatro();
         return "\nID de Funcion: ".$this->getIdFuncion().
                "\nNombre de la función: ".$this->getNombre().
                "\nHora de inicio: ".$this->getHoraInicio().
                "\nDuración: ".$this->getDuracion().
                "\nPrecio: $".$this->getPrecio().
                "\nCosto: $".$this->getCosto().
-               "\nObj Teatro: ".$this->getObjTeatro();
+               "\nID Teatro: ".$idTeatro."\n";
     }
 }
 ?>

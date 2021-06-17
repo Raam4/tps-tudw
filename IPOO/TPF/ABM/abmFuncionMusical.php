@@ -12,7 +12,7 @@ class abmMusical{
         $objMusical->setCantPersonas($data['cantPersonas']);
         $objMusical->setPorcInc($data['porcInc']);
         $costo = $data['precio'] * (($data['porcInc'] * 0.01) + 1);
-        $objCine->setCosto($costo);
+        $objMusical->setCosto($costo);
         $rpta = $objMusical->insertar();
         if($rpta){
             return $objMusical;
@@ -36,6 +36,7 @@ class abmMusical{
         echo "Ingrese la cantidad de personas en escena: ";
         $arrMusical['cantPersonas'] = trim(fgets(STDIN));
         $arrMusical['porcInc'] = 12;
+        $arrMusical['costo'] = $arrMusical['precio'] * (($arrMusical['porcInc'] * 0.01) + 1);
         $objMusical = new Musical();
         $objMusical->cargar($arrMusical);
         $rpta = $objMusical->modificar();

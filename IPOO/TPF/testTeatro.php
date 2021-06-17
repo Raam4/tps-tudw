@@ -105,17 +105,18 @@ function dataFuns($objTeatro){
 	echo "Ingrese el nombre: ";
 	$data['nombre'] = trim(fgets(STDIN));
 
-
-	echo "Ingrese la hora de inicio en formato HH:mm ";
-	$horaInicio = trim(fgets(STDIN));
+	do{
+		echo "Ingrese la hora de inicio en formato HH:mm ";
+		$horaInicio = trim(fgets(STDIN));
+	}while(solapa($objTeatro, $horaInicio));
 	$data['horaInicio'] = $horaInicio.":00";
-	
-	
-	
-	echo "Ingrese la duración en formato HH:mm ";
-	$duracion = trim(fgets(STDIN));
-	$data['duracion'] = $duracion.":00";
 
+	do{
+		echo "Ingrese la duración en formato HH:mm ";
+		$duracion = trim(fgets(STDIN));
+		$finaliza = sumarhrs($horaInicio, $duracion);
+	}while(solapa($objTeatro, $finaliza));
+	$data['duracion'] = $duracion;
 
 	echo "Ingrese el precio de la entrada: ";
 	$data['precio'] = trim(fgets(STDIN));
@@ -220,26 +221,29 @@ function handleFuns($objFuncion, $objTeatro){
 }
 
 function sumarhrs($hora1, $hora2){
-    $a = new DateTime($hora1); //Creo un objeto DateTime
-    $b = new DateInterval((new DateTime($hora2))->format('\P\TH\Hi\Ms\S')); //Creo un objeto DateInterval
-    $a->add($b); //Sumo las horas
-    return $a->format('h:i:s'); //Imprimo las horas
+    $a = new DateTime($hora1);
+    $b = new DateInterval((new DateTime($hora2))->format('\P\TH\Hi\Ms\S'));
+    $a->add($b);
+    return $a->format('H:i:s');
 }
 
 function solapa($objTeatro, $hora){
 	$abmttr = new abmTeatro();
-	$colObjFuncion = $abmttr->devuelveFunciones($objFuncion);
+	$abmfnc = new abmFuncion();
+	$colObjFuncion = $abmttr->devuelveFunciones($objTeatro);
 	$rtn = False;
-	if($colObjFuncion != 0){
-		foreach($colObjFuncion as $key){
-			$inicia = $key['horaInicio'];
-			$finaliza = sumarhrs($inicia, $key['duracion']);
-			if(($hora < $inicia) and ($finaliza < $finaliza)){
-				$rtn = True;
-			}
+	$i=0;
+	while($i!=count($colObjFuncion) and !$rtn){
+		$actual = $colObjFuncion[$i];
+		$arrhrs = $abmfnc->devuelveHoras($actual);
+		$finaliza = sumarhrs($arrhrs['inicio'], $arrhrs['duracion']);
+		if(($arrhrs['inicio'] < $hora) and ($hora < $finaliza)){
+			$rtn = True;
+			echo "El rango horario se solapa con otra función.\n";
 		}
+		$i++;
 	}
-	$rtn;
+	return $rtn;
 }
 
 

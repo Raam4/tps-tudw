@@ -38,6 +38,7 @@ class abmCine{
         echo "Ingrese el país de origen: ";
         $arrCine['paisOrigen'] = trim(fgets(STDIN));
         $arrCine['porcInc'] = 65;
+        $arrCine['costo'] = $arrCine['precio'] * (($arrCine['porcInc'] * 0.01) + 1);
         $objCine = new Cine();
         $objCine->cargar($arrCine);
         $rpta = $objCine->modificar();

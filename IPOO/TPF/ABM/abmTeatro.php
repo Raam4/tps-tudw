@@ -66,5 +66,6 @@ class abmTeatro{
         $colObjFuncion = $objTeatro->getColObjFuncion();
         return $colObjFuncion;
     }
+
 }
 ?>

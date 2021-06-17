@@ -75,5 +75,11 @@ class abmFuncion{
         }
         return $rtn;
     }
+
+    function devuelveHoras($objFuncion){
+        $horas['inicio'] = $objFuncion->getHoraInicio();
+        $horas['duracion'] = $objFuncion->getDuracion();
+        return $horas;
+    }
 }
 ?>
