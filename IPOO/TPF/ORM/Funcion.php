@@ -122,18 +122,19 @@ class Funcion{
             if($base->Ejecutar($qryFuncion)){				
                 $arrayFuncion= array();
                 while($row2 = $base->Registro()){
-                    $arr = array();
+                    //utilizar $row2 como (($arr)) ---> no puedo hacer esto??? hay que eliminar idTeatro de row2 por f:cargar
+                    /*$arr = array();
                     $arr['idFuncion'] = $row2['idFuncion'];
                     $arr['nombre'] = $row2['nombre'];
                     $arr['horaInicio'] = $row2['horaInicio'];
                     $arr['duracion'] = $row2['duracion'];
                     $arr['precio'] = $row2['precio'];
-                    $arr['costo'] = $row2['costo'];
-                    $idTeatro = $row2['idTeatro'];
-                    $arr['objTeatro'] = new Teatro();
-                    $arr['objTeatro']->buscar($idTeatro, False);
+                    $arr['costo'] = $row2['costo'];*/
+                    $row2['objTeatro'] = new Teatro();
+                    $row2['objTeatro']->buscar($row2['idTeatro'], False);
+                    unset($row2['idTeatro']);
                     $fun = new Funcion();
-                    $fun->cargar($arr);
+                    $fun->cargar($row2);
                     array_push($arrayFuncion, $fun);
                 }                
             }else{
